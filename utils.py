@@ -13,16 +13,16 @@ def identity(x: T) -> T:
     return x
 
 
-def read_lines(filename: str, fct: Callable[[str], T] = lambda line: line) -> list[T]: # type: ignore
+def read_lines(filename: str, func: Callable[[str], T] = lambda line: line) -> list[T]: # type: ignore
     print(f"Reading from {filename}... ", end="")
     with open(filename, 'r', encoding="utf8") as file:
         lines = file.readlines()
-        stripped = [fct(line.strip()) for line in lines]
+        stripped = [func(line.strip()) for line in lines]
         print("Done.")
         return stripped
 
 
-def mkString(items: Iterable[T], sep: str = "", to_str: Callable[[T], str] = str) -> str:
+def join(items: Iterable[T], sep: str = "", to_str: Callable[[T], str] = str) -> str:
     return sep.join(map(to_str, items))
 
 

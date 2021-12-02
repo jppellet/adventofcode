@@ -1,11 +1,11 @@
 from typing import Tuple
 from utils import *
 
-def parse_line(line: str) -> Tuple[str, int]:
+def parse_instr(line: str) -> Tuple[str, int]:
     [cmd, arg_str] = line.split(" ")
     return cmd, int(arg_str)
 
-instrs = read_lines(input_for(__file__), parse_line)
+instrs = read_lines(input_for(__file__), parse_instr)
 
 def part1():
     hpos = 0
