@@ -1,11 +1,12 @@
 from typing import Callable, Iterable, TypeVar, Generic, Any, Optional
 
-T = TypeVar('T')
+T = TypeVar("T")
+
 
 def input_for(filename: str) -> str:
     suffix = ".py"
     if filename.endswith(suffix):
-        filename = filename[:-len(suffix)]
+        filename = filename[: -len(suffix)]
     return filename + ".txt"
 
 
@@ -13,9 +14,9 @@ def identity(x: T) -> T:
     return x
 
 
-def read_lines(filename: str, func: Callable[[str], T] = lambda line: line) -> list[T]: # type: ignore
+def read_lines(filename: str, func: Callable[[str], T] = lambda line: line) -> list[T]:  # type: ignore
     print(f"Reading from {filename}... ", end="")
-    with open(filename, 'r', encoding="utf8") as file:
+    with open(filename, "r", encoding="utf8") as file:
         lines = file.readlines()
         stripped = [func(line.strip()) for line in lines]
         print("Done.")
@@ -33,3 +34,6 @@ def count_where(func: Callable[[T], bool], items: Iterable[T]) -> int:
             n += 1
     return n
 
+
+def transposed(matrix: list[list[T]]) -> list[list[T]]:
+    return list(map(list, zip(*matrix)))
