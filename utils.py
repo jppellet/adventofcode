@@ -37,3 +37,6 @@ def count_where(func: Callable[[T], bool], items: Iterable[T]) -> int:
 
 def transposed(matrix: list[list[T]]) -> list[list[T]]:
     return list(map(list, zip(*matrix)))
+
+def sign(a: int) -> int:
+    return 1 if a > 0 else -1 if a < 0 else 0
