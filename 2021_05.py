@@ -35,8 +35,9 @@ def count_overlapping(with_diags: bool = False) -> int:
                 y1 += dy
     return sum(map(lambda line: count_where(lambda i: i > 1, line), board))
 
+SAMPLE = False
 
-lines = read_lines(input_for(__file__), parse_coords)
+lines = read_lines(input_for(__file__, SAMPLE), parse_coords)
 width = max(max(x1, x2) for (x1, _), (x2, _) in lines) + 1
 height = max(max(y1, y2) for (_, y1), (_, y2) in lines) + 1
 print(count_overlapping(with_diags=False))

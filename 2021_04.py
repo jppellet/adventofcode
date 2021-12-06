@@ -39,8 +39,9 @@ class Board:
             for row in self.data
         )
 
+SAMPLE = False
 
-lines: list[str] = read_lines(input_for(__file__))
+lines: list[str] = read_lines(input_for(__file__, SAMPLE))
 draws = list(map(int, lines[0].split(",")))
 boards: list[Board] = []
 
