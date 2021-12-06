@@ -7,12 +7,10 @@ data = list(map(int, (DATA_SAMPLE if SAMPLE else DATA).split(",")))
 current, next = [data.count(d) for d in range(9)], [0] * 9
 
 for i in range(256):
-    next[8] = current[0]
-    next[7] = current[8]
-    next[6] = current[7] + current[0]
-    for d in range(5, -1, -1):
-        next[d] = current[d + 1]
+    for d in range(8, -1, -1):
+        next[d] = current[(d + 1) % 9]
+    next[6] += current[0]
     current, next = next, current
-
+    
     if i == 79 or i == 255:
         print(f"After {i+1:3} days: {sum(current)}")
