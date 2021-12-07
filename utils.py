@@ -16,13 +16,18 @@ def identity(x: T) -> T:
     return x
 
 
-def read_lines(filename: str, func: Callable[[str], T] = lambda line: line) -> list[T]:  # type: ignore
+def read_lines(filename: str, func: Callable[[str], T]) -> list[T]:  # type: ignore
     print(f"Reading from {filename}... ", end="")
     with open(filename, "r", encoding="utf8") as file:
         lines = file.readlines()
         stripped = [func(line.strip()) for line in lines]
         print("Done.")
         return stripped
+
+
+def read_first_line(filename: str, sep: str, func: Callable[[str], T]) -> list[T]:  # type: ignore
+    line = read_lines(filename, str)[0]
+    return [func(part) for part in line.split(sep)] 
 
 
 def join(items: Iterable[T], sep: str = "", to_str: Callable[[T], str] = str) -> str:
