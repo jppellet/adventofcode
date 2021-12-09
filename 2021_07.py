@@ -1,13 +1,12 @@
-from typing import Tuple
 from utils import *
 
 SAMPLE = False
 data = read_first_line(input_for(__file__, SAMPLE), ",", int)
 
-def fuel_linear(pos: Tuple[int, int]) -> int:
+def fuel_linear(pos: tuple[int, int]) -> int:
     return abs(pos[1] - pos[0])
 
-def fuel_quadratic(pos: Tuple[int, int]) -> int:
+def fuel_quadratic(pos: tuple[int, int]) -> int:
     d = abs(pos[1] - pos[0])
     return (d * (d + 1)) // 2
 

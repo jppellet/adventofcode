@@ -1,7 +1,6 @@
-from typing import Tuple
 from utils import *
 
-Counts = Tuple[int, int]
+Counts = tuple[int, int]
 
 bins = read_lines(input_for(__file__))
 width = len(bins[0])
@@ -14,7 +13,7 @@ def count_bits_at(i: int, rows: list[str]) -> Counts:
     return num_0, num_1
 
 
-def part1():
+def part1() -> None:
     gamma_str = ""
     epsilon_str = ""
     for i in range(width):
@@ -39,7 +38,7 @@ def filter_loop(to_keep: Callable[[Counts], str]) -> int:
     return int(candidates[0], 2)
 
 
-def part2():
+def part2() -> None:
     o2_gen = filter_loop(lambda nums: "1" if nums[1] >= nums[0] else "0")
     co2_scrub = filter_loop(lambda nums: "0" if nums[0] <= nums[1] else "1")
     print(o2_gen * co2_scrub)

@@ -1,4 +1,4 @@
-from typing import NamedTuple, Tuple
+from typing import NamedTuple
 from functools import reduce
 from utils import *
 
@@ -53,7 +53,7 @@ def decode_line(case: DisplayData) -> int:
     ]))
 
     max_index = len(case.readings) - 1
-    def decode_digit(pos_digits: Tuple[int, str]) -> int:
+    def decode_digit(pos_digits: tuple[int, str]) -> int:
         radix: int = 10 ** (max_index - pos_digits[0])
         pat_set = set(pos_digits[1])
         return radix * index_where(lambda s: s == pat_set, sets)

@@ -1,4 +1,3 @@
-from typing import Tuple
 from utils import *
 from sys import exit
 

@@ -1,11 +1,10 @@
-from typing import Tuple
 from utils import *
 
-Point = Tuple[int, int]
+Point = tuple[int, int]
 Board = list[list[int]]
 
 
-def parse_coords(line: str) -> Tuple[Point, Point]:
+def parse_coords(line: str) -> tuple[Point, Point]:
     p1, p2 = line.split(" -> ")
     x1, y1 = map(int, p1.split(","))
     x2, y2 = map(int, p2.split(","))

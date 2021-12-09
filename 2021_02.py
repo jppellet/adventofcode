@@ -1,7 +1,6 @@
-from typing import Tuple
 from utils import *
 
-def parse_instr(line: str) -> Tuple[str, int]:
+def parse_instr(line: str) -> tuple[str, int]:
     cmd, arg_str = line.split()
     return cmd, int(arg_str)
 
