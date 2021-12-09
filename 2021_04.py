@@ -41,7 +41,7 @@ class Board:
 
 SAMPLE = False
 
-lines: list[str] = read_lines(input_for(__file__, SAMPLE))
+lines: list[str] = read_lines(input_for(__file__, SAMPLE), str)
 draws = list(map(int, lines[0].split(",")))
 boards: list[Board] = []
 

@@ -34,13 +34,36 @@ def join(items: Iterable[T], sep: str = "", to_str: Callable[[T], str] = str) ->
     return sep.join(map(to_str, items))
 
 
-def count_where(func: Callable[[T], bool], items: Iterable[T]) -> int:
+def count_where(pred: Callable[[T], bool], items: Iterable[T]) -> int:
     n = 0
     for item in items:
-        if func(item):
+        if pred(item):
             n += 1
     return n
 
+def find_where(pred: Callable[[T], bool], items: Iterable[T]) -> T:
+    for e in items:
+        if pred(e):
+            return e
+    raise ValueError("No element found")
+
+def find_all_where(pred: Callable[[T], bool], items: Iterable[T]) -> list[T]:
+    return [e for e in items if pred(e)]
+
+
+def first(items: Iterable[T]) -> T:
+    for e in items:
+        return e
+    raise ValueError("No element found")
+
+def index_where(pred: Callable[[T], bool], items: Iterable[T]) -> int:
+    for i, e in enumerate(items):
+        if pred(e):
+            return i
+    return -1
+
+def all_indices_where(pred: Callable[[T], bool], items: Iterable[T]) -> list[int]:
+    return [i for i, e in enumerate(items) if pred(e)]
 
 def transposed(matrix: list[list[T]]) -> list[list[T]]:
     return list(map(list, zip(*matrix)))
