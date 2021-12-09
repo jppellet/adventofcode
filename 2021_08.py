@@ -31,13 +31,13 @@ def decode_line(case: DisplayData) -> int:
     a_b_f_g = common_digits_for_len(6)
     b_d = b_d_c_f - c_f
 
-    a = first(a_c_f - c_f)
-    b = first(b_d & a_b_f_g)
-    d = first(b_d - set(b))
-    f = first(c_f & a_b_f_g)
-    c = first(c_f - set(f))
-    g = first(a_b_f_g - set([a, b, f]))
-    e = first(all - set([a, b, c, d, f, g]))
+    [a] = a_c_f - c_f
+    [b] = b_d & a_b_f_g
+    [d] = b_d - set([b])
+    [f] = c_f & a_b_f_g
+    [c] = c_f - set([f])
+    [g] = a_b_f_g - set([a, b, f])
+    [e] = all - set([a, b, c, d, f, g])
 
     sets = list(map(set, [ # type: ignore
         [a, b, c, e, f, g],
@@ -52,9 +52,9 @@ def decode_line(case: DisplayData) -> int:
         [a, b, c, d, f, g],
     ]))
 
-    num_digits = len(case.readings)
+    max_index = len(case.readings) - 1
     def decode_digit(pos_digits: Tuple[int, str]) -> int:
-        radix: int = 10 ** (num_digits - pos_digits[0])
+        radix: int = 10 ** (max_index - pos_digits[0])
         pat_set = set(pos_digits[1])
         return radix * index_where(lambda s: s == pat_set, sets)
 

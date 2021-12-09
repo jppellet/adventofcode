@@ -27,7 +27,7 @@ def read_lines(filename: str, func: Callable[[str], T]) -> list[T]:  # type: ign
 
 def read_first_line(filename: str, sep: str, func: Callable[[str], T]) -> list[T]:  # type: ignore
     line = read_lines(filename, str)[0]
-    return [func(part) for part in line.split(sep)] 
+    return [func(part) for part in line.split(sep)]
 
 
 def join(items: Iterable[T], sep: str = "", to_str: Callable[[T], str] = str) -> str:
@@ -41,11 +41,13 @@ def count_where(pred: Callable[[T], bool], items: Iterable[T]) -> int:
             n += 1
     return n
 
+
 def find_where(pred: Callable[[T], bool], items: Iterable[T]) -> T:
     for e in items:
         if pred(e):
             return e
     raise ValueError("No element found")
+
 
 def find_all_where(pred: Callable[[T], bool], items: Iterable[T]) -> list[T]:
     return [e for e in items if pred(e)]
@@ -56,14 +58,21 @@ def first(items: Iterable[T]) -> T:
         return e
     raise ValueError("No element found")
 
+
+def flatten(items: list[list[T]]) -> list[T]:
+    return [item for sublist in items for item in sublist]
+
+
 def index_where(pred: Callable[[T], bool], items: Iterable[T]) -> int:
     for i, e in enumerate(items):
         if pred(e):
             return i
     return -1
 
+
 def all_indices_where(pred: Callable[[T], bool], items: Iterable[T]) -> list[int]:
     return [i for i, e in enumerate(items) if pred(e)]
+
 
 def transposed(matrix: list[list[T]]) -> list[list[T]]:
     return list(map(list, zip(*matrix)))
