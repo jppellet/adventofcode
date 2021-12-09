@@ -1,5 +1,6 @@
 from typing import NamedTuple
 from functools import reduce
+from itertools import starmap
 from utils import *
 
 class DisplayData(NamedTuple):
@@ -53,11 +54,11 @@ def decode_line(case: DisplayData) -> int:
     ]))
 
     max_index = len(case.readings) - 1
-    def decode_digit(pos_digits: tuple[int, str]) -> int:
-        radix: int = 10 ** (max_index - pos_digits[0])
-        pat_set = set(pos_digits[1])
+    def decode_digit(pos: int, digits: str) -> int:
+        radix: int = 10 ** (max_index - pos)
+        pat_set = set(digits)
         return radix * index_where(lambda s: s == pat_set, sets)
 
-    return sum(map(decode_digit, enumerate(case.readings)))
+    return sum(starmap(decode_digit, enumerate(case.readings)))
 
 print(sum(map(decode_line, data)))

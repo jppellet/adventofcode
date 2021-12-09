@@ -12,10 +12,6 @@ def input_for(filename: str, sample: bool = False) -> str:
     return filename + ".txt"
 
 
-def identity(x: T) -> T:
-    return x
-
-
 def read_lines(filename: str, func: Callable[[str], T]) -> list[T]:  # type: ignore
     print(f"Reading from {filename}... ", end="")
     with open(filename, "r", encoding="utf8") as file:

@@ -32,7 +32,7 @@ def count_overlapping(with_diags: bool = False) -> int:
                 board[y1][x1] += 1
                 x1 += dx
                 y1 += dy
-    return sum(map(lambda line: count_where(lambda i: i > 1, line), board))
+    return sum(map(lambda line: count_where(lambda i: i > 1, line), board)) # type: ignore
 
 SAMPLE = False
 

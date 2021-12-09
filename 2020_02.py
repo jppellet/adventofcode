@@ -1,6 +1,7 @@
 from utils import *
 
-lines = read_lines("2020_2.txt", identity)
+SAMPLE = False
+lines = read_lines(input_for(__file__, SAMPLE), str)
 
 def is_valid(line: str) -> bool:
     [range,letter,password] = line.split(" ")

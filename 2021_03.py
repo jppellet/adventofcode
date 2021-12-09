@@ -2,7 +2,7 @@ from utils import *
 
 Counts = tuple[int, int]
 
-bins = read_lines(input_for(__file__))
+bins = read_lines(input_for(__file__), str)
 width = len(bins[0])
 
 

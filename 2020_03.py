@@ -1,7 +1,8 @@
 from utils import *
 from functools import reduce
 
-trees = read_lines("2020_3.txt", lambda line: [c == "#" for c in line])
+SAMPLE = False
+trees = read_lines(input_for(__file__, SAMPLE), lambda line: [c == "#" for c in line])
 
 
 def count_trees(right: int, down: int) -> int:

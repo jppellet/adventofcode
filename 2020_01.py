@@ -1,6 +1,7 @@
 from utils import *
 
-ints = read_lines("2020_1.txt", int)
+SAMPLE = False
+ints = read_lines(input_for(__file__, SAMPLE), int)
 
 print(ints)
 
