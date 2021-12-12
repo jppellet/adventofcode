@@ -34,24 +34,24 @@ def decode_line(case: DisplayData) -> int:
 
     [a] = a_c_f - c_f
     [b] = b_d & a_b_f_g
-    [d] = b_d - set([b])
+    [d] = b_d - {b}
     [f] = c_f & a_b_f_g
-    [c] = c_f - set([f])
-    [g] = a_b_f_g - set([a, b, f])
-    [e] = all - set([a, b, c, d, f, g])
+    [c] = c_f - {f}
+    [g] = a_b_f_g - {a, b, f}
+    [e] = all - {a, b, c, d, f, g}
 
-    sets = list(map(set, [ # type: ignore
-        [a, b, c, e, f, g],
-        [c, f],
-        [a, c, d, e, g],
-        [a, c, d, f, g],
-        [b, c, d, f],
-        [a, b, d, f, g],
-        [a, b, d, e, f, g],
-        [a, c, f],
-        [a, b, c, d, e, f, g],
-        [a, b, c, d, f, g],
-    ]))
+    sets = [
+        {a, b, c, e, f, g},
+        {c, f},
+        {a, c, d, e, g},
+        {a, c, d, f, g},
+        {b, c, d, f},
+        {a, b, d, f, g},
+        {a, b, d, e, f, g},
+        {a, c, f},
+        {a, b, c, d, e, f, g},
+        {a, b, c, d, f, g},
+    ]
 
     max_index = len(case.readings) - 1
     def decode_digit(pos: int, digits: str) -> int:
