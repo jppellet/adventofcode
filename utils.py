@@ -37,6 +37,14 @@ def count_where(pred: Callable[[T], bool], items: Iterable[T]) -> int:
             n += 1
     return n
 
+def count_where_2d(pred: Callable[[T], bool], items: Iterable[Iterable[T]]) -> int:
+    n = 0
+    for subitems in items:
+        for item in subitems:
+            if pred(item):
+                n += 1
+    return n
+
 
 def find_where(pred: Callable[[T], bool], items: Iterable[T]) -> T:
     for e in items:
