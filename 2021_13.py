@@ -28,10 +28,9 @@ sheet = [[False for _ in range(width)] for _ in range(height)]
 for x, y in dots:
     sheet[y][x] = True
 
-
 def print_sheet() -> None:
     for line in sheet:
-        print(join(line, "", lambda b: "#" if b else "."))
+        print(join(line, "", lambda b: "\033[7m \033[0m" if b else " "))
 
 
 for i, (axis, pos) in enumerate(folds):

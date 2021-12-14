@@ -1,7 +1,7 @@
 from utils import *
-from sys import exit
+from sys import argv, exit
 
-SAMPLE = True
+SAMPLE = len(argv) < 2 or argv[1] != "real"
 
 data = read_lines(input_for(__file__, SAMPLE), str)
 # data = read_first_line(input_for(__file__, SAMPLE), ",", str)

@@ -57,7 +57,7 @@ def find_all_where(pred: Callable[[T], bool], items: Iterable[T]) -> list[T]:
     return [e for e in items if pred(e)]
 
 
-def first(items: Iterable[T]) -> T:
+def first_char(items: Iterable[T]) -> T:
     for e in items:
         return e
     raise ValueError("No element found")
