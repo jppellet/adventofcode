@@ -8,6 +8,8 @@ SAMPLE = len(argv) < 2 or argv[1] != "real"
 class Cell:
     risk: int
     risk_path: int = -1
+    prev: Optional['Cell'] = None
+    on_final_path: bool = False
 
 def make_cell(c: str) -> Cell:
     return Cell(int(c))
@@ -47,14 +49,31 @@ def print_data(detailed: bool) -> None:
 
 visit_queue: list[tuple[int, int]] = [(0, 0)]
 while len(visit_queue) != 0:
+    # print(len(visit_queue))
     x, y = visit_queue.pop(0)
+    cell = data[x][y]
     for _x, _y in neighborhood(x, y):
         neighbor = data[_x][_y]
-        new_risk_path = data[x][y].risk_path + neighbor.risk
+        new_risk_path = cell.risk_path + neighbor.risk
         if neighbor.risk_path == -1 or new_risk_path < neighbor.risk_path:
             neighbor.risk_path = new_risk_path
+            neighbor.prev = cell
             visit_queue.append((_x, _y))
 
 # print_data(detailed=True)
 print(data[height // 5 -1][width // 5 -1].risk_path)
 print(data[-1][-1].risk_path)
+
+# rest is optional, only for visualization
+
+# back track
+path_cell = data[-1][-1]
+while True:
+    path_cell.on_final_path = True
+    if path_cell.prev is None:
+        break
+    path_cell = path_cell.prev
+
+with open("2021_15_out.txt", "w") as file:
+    for row in data:
+        file.write(join(map(lambda cell: "W" if cell.on_final_path else " ", row), "") + "\n")

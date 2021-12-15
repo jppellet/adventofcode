@@ -1,5 +1,9 @@
 from typing import Callable, Iterable, TypeVar, Generic, Any, Optional
 
+TERM_BOLD = "\033[1m"
+TERM_NORMAL = "\033[0m"
+
+
 T = TypeVar("T")
 
 
@@ -13,7 +17,7 @@ def input_for(filename: str, sample: bool = False) -> str:
 
 
 def read_lines(filename: str, func: Callable[[str], T]) -> list[T]:  # type: ignore
-    print(f"Reading from {filename}... ", end="")
+    print(f"Reading from {TERM_BOLD}{filename}{TERM_NORMAL}... ", end="")
     with open(filename, "r", encoding="utf8") as file:
         lines = file.readlines()
         stripped = [func(line.strip()) for line in lines]
