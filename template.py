@@ -1,5 +1,5 @@
-from utils import *
 from sys import argv, exit
+from utils import *
 
 SAMPLE = len(argv) < 2 or argv[1] != "real"
 
