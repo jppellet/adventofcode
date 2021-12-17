@@ -13,7 +13,7 @@ base="${year}_${day}"
 
 dest="$dir/${base}.py"
 
-# check if desktop file exists
+# check if destination file already exists
 if [ -f "$dest" ]; then
   echo "File $dest already exists"
   exit 1

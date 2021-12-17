@@ -12,7 +12,7 @@ def print_data() -> None:
     print(f"Data at time {_t}:")
     for line in data:
         print(line)
-    print("--")
+    print("----\n")
     _t += 1
 
 
