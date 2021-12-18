@@ -88,3 +88,7 @@ def transposed(matrix: list[list[T]]) -> list[list[T]]:
 
 def sign(a: int) -> int:
     return 1 if a > 0 else -1 if a < 0 else 0
+
+
+def islist(l: Any) -> bool:
+    return type(l) is list
