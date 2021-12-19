@@ -1,6 +1,7 @@
 from typing import Callable, Iterable, TypeVar, Generic, Any, Optional
 
 TERM_BOLD = "\033[1m"
+TERM_INVERT = "\033[7m"
 TERM_NORMAL = "\033[0m"
 
 
@@ -86,7 +87,7 @@ def transposed(matrix: list[list[T]]) -> list[list[T]]:
     return list(map(list, zip(*matrix)))
 
 
-def sign(a: int) -> int:
+def sign(a: float | int) -> int:
     return 1 if a > 0 else -1 if a < 0 else 0
 
 
