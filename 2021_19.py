@@ -286,7 +286,7 @@ for i in range(1, len(scanners)):
 
 
 
-print(f"{TERM_INVERT} Total number of points: {len(all_points)} {TERM_NORMAL}")
+print(f"{TERM_INVERT} Total number of points: {len(all_points)} {TERM_RESET}")
 
 
 # Part 2
@@ -308,4 +308,4 @@ for i in range(len(positions)):
         if dist > max_dist:
             max_dist = dist
 
-print(f"{TERM_INVERT} Maximum distance: {max_dist} {TERM_NORMAL}")
+print(f"{TERM_INVERT} Maximum distance: {max_dist} {TERM_RESET}")
