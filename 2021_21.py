@@ -29,7 +29,7 @@ while True:
     scores[p] += newpos
     if scores[p] >= 1000:
         result = num_turns * 3 * scores[(p + 1) % 2]
-        print(f"{TERM_INVERT} {result} {TERM_RESET}")
+        print_result(result)
         break
 
 
@@ -42,9 +42,10 @@ class GameState(NamedTuple):
     prevplayer_score: int
 
 def possible_rolls() -> Generator[int, None, None]:
-    for r1 in [1, 2, 3]:
-        for r2 in [1, 2, 3]:
-            for r3 in [1, 2, 3]:
+    roll_range = [1, 2, 3]
+    for r1 in roll_range:
+        for r2 in roll_range:
+            for r3 in roll_range:
                 yield r1 + r2 + r3
 
 @cache
@@ -71,6 +72,5 @@ def compute_wins_from_state(state: GameState) -> tuple[int, int]:
             num_wins[1] += subwins[0]
     return num_wins[0], num_wins[1]
 
-
 wins = compute_wins_from_state(GameState(start_positions[0], 0, start_positions[1], 0))
-print(f"{TERM_INVERT} Max wins: {max(wins)} {TERM_RESET}")
+print_result(f"Max wins: {max(wins)}")

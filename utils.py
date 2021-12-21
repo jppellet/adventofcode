@@ -5,6 +5,10 @@ TERM_INVERT = "\033[7m"
 TERM_RESET = "\033[0m"
 
 
+def print_result(arg0: Any, *args: Any, **kwargs: Any) -> None:
+    print(f"{TERM_INVERT}{TERM_BOLD} {arg0} {TERM_RESET}", *args, **kwargs)
+
+    
 T = TypeVar("T")
 
 

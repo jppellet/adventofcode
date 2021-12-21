@@ -17,3 +17,5 @@ def print_data() -> None:
 
 
 print_data()
+
+print_result("--")
