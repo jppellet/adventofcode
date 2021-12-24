@@ -1,30 +1,26 @@
 from sys import argv, exit
+from typing import NamedTuple
 from utils import *
-
-from dataclasses import dataclass
 
 SAMPLE = len(argv) < 2 or argv[1] != "real"
 
-@dataclass
-class Cell:
-    x: int
-    y: int
-    occ: str | None
-
-Pos = tuple[int, int]
-Move = tuple[Pos, Pos, int]
+Position = tuple[int, int]
+class Move(NamedTuple):
+    from_pos: Position
+    to_pos: Position
+    cost: int
 
 def print_grid() -> None:
-    print("    ", end="")
+    print("      ", end="")
     for i in range(11):
         print(f" {i} ", end="")
     print()
-    for y in range(0, depth + 2):
-        print(str(y) if 0 <= y <= 2 else " ", end="")
+    for y in range(-1, depth + 2):
+        print(f"{y}  " if 0 <= y <= depth else "   ", end="")
         for x in range(-1, 12):
             pos = (x, y)
             if not pos in grid:
-                print("   ", end="")
+                print("###", end="")
             else:
                 l = grid[pos]
                 if l is None:
@@ -35,14 +31,15 @@ def print_grid() -> None:
     print("--")
 
 
-blacklist = {(2, 0), (4, 0), (6, 0), (8, 0)}
-top_range = [pos for x in range(11) if (pos := (x, 0)) not in blacklist]
 dest_cols = {
     "A": 2,
     "B": 4,
     "C": 6,
     "D": 8,
 }
+room_cols = list(dest_cols.values())
+blacklist = list(map(lambda c: (c, 0), room_cols))
+top_range = [pos for x in range(11) if (pos := (x, 0)) not in blacklist]
 costs = {
     "A": 1,
     "B": 10,
@@ -51,7 +48,7 @@ costs = {
 }
 
 def is_finished() -> bool:
-    for x in 2, 4, 6, 8:
+    for x in room_cols:
         for y in range(1, depth + 1):
             l = grid[(x, y)]
             if l is None:
@@ -60,14 +57,14 @@ def is_finished() -> bool:
                 return False
     return True
 
-def do_move(from_pos: Pos, to_pos: Pos) -> None:
+def do_move(from_pos: Position, to_pos: Position) -> None:
     grid[to_pos] = grid[from_pos]
     grid[from_pos] = None
 
-def make_path(from_pos: Pos, to_pos: Pos) -> list[Pos]:
-    path: list[Pos] = []
+def make_path(from_pos: Position, to_pos: Position) -> list[Position]:
     if from_pos == to_pos:
-        return path
+        return []
+    path: list[Position] = []
     if from_pos[1] == 0:
         # into room, horizontal first
         dir = sign(to_pos[0] - from_pos[0])
@@ -96,7 +93,7 @@ def make_path(from_pos: Pos, to_pos: Pos) -> list[Pos]:
             path.append((to_pos[0], y))
     return path
 
-def is_path_free(from_pos: Pos, to_pos: Pos) -> tuple[bool, int]:
+def is_path_free(from_pos: Position, to_pos: Position) -> tuple[bool, int]:
     path = make_path(from_pos, to_pos)
     # print(f"trying to move from {from_pos} to {to_pos} with path {path}")
     for pos in path:
@@ -108,18 +105,18 @@ def is_path_free(from_pos: Pos, to_pos: Pos) -> tuple[bool, int]:
 def list_moves() -> list[Move]:
     moves: list[Move] = []
 
-    def add(from_pos: Pos, to_pos: Pos, length: int) -> None:
+    def add_move(from_pos: Position, to_pos: Position, length: int) -> None:
         l = grid[from_pos]
         if l is None:
             raise ValueError("moving empty cell")
         unit_cost = costs[l]
-        moves.append((from_pos, to_pos, length * unit_cost))
+        moves.append(Move(from_pos, to_pos, length * unit_cost))
 
-    def add_if_free(from_pos: Pos, to_pos: Pos) -> None:
+    def add_move_if_path_free(from_pos: Position, to_pos: Position) -> None:
         free, length = is_path_free(from_pos, to_pos)
         if free:
             # print(f" >> {to_pos}")
-            add(from_pos, to_pos, length)
+            add_move(from_pos, to_pos, length)
 
     for pos in top_range:
         # print(f"checking moves from {pos}")
@@ -136,7 +133,7 @@ def list_moves() -> list[Move]:
 
             if y == depth:
                 # bottom
-                add_if_free(pos, (dest_col, y))
+                add_move_if_path_free(pos, (dest_col, y))
             else:
                 # check all the rest are of the same type
                 all_same = True
@@ -145,9 +142,9 @@ def list_moves() -> list[Move]:
                         all_same = False
                         break
                 if all_same:
-                    add_if_free(pos, (dest_col, y))
+                    add_move_if_path_free(pos, (dest_col, y))
 
-    for x in 2, 4, 6, 8:
+    for x in room_cols:
         # look for top one in this col
         y = 1
         while y <= depth and (l := grid[(x, y)]) is None:
@@ -165,14 +162,14 @@ def list_moves() -> list[Move]:
                 # try to get it out to the top row
                 from_pos = (x, y)
                 for to_pos in top_range:
-                    add_if_free(from_pos, to_pos)
+                    add_move_if_path_free(from_pos, to_pos)
     return moves
 
 
 def print_moves(moves: list[Move]) -> None:
     print("-- BEGIN MOVES")
     for i, move in enumerate(moves):
-        print(f"{(i+1):3}. Move {move[0]} to {move[1]}")
+        print(f"{(i+1):3}. Move {move.from_pos} to {move.to_pos} (cost = {move.cost})")
     print("-- END MOVES")
 
 best_cost = float("inf")
@@ -196,10 +193,9 @@ def play_next_moves(cum_cost: int, past_moves: list[Move]) -> None:
     if interactive:
         input("Enter to go on...")
     moves = list_moves()
-    # print(f"trying {len(moves)} moves")
     if interactive and len(moves) == 0:
         print("dead end")
-    for move in sorted(moves, key=lambda m: m[2]):
+    for move in sorted(moves, key=lambda m: m.cost):
         from_pos, to_pos, cost = move
         do_move(from_pos, to_pos)
         play_next_moves(cum_cost + cost, [*past_moves, move])
